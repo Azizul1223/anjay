@@ -312,5 +312,61 @@
     setTimeout(type, 900);
   </script>
 
+
+<script>
+  const DISCORD_ID = "579606759216250880";
+
+  async function loadDiscordProfile() {
+    try {
+      const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+      const data = await res.json();
+
+      if (!data.success) return;
+
+      const user = data.data.discord_user;
+
+      // USERNAME
+      document.querySelector(".profile-name").textContent =
+        user.global_name || user.username;
+
+      // AVATAR
+      const avatarUrl =
+        `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=512`;
+
+      document.querySelector(".avatar-img").src = avatarUrl;
+
+      // AVATAR DECORATION
+      if (user.avatar_decoration_data) {
+        const deco = document.createElement("img");
+
+        deco.src =
+          `https://cdn.discordapp.com/avatar-decoration-presets/${user.avatar_decoration_data.asset}.png`;
+
+        deco.className = "avatar-decoration";
+
+        document.getElementById("avatar-wrap").appendChild(deco);
+      }
+
+      // STATUS ONLINE DOT
+      const status = data.data.discord_status;
+      const dot = document.querySelector(".online-dot");
+
+      const colors = {
+        online: "#23a55a",
+        idle: "#f0b232",
+        dnd: "#f23f43",
+        offline: "#80848e"
+      };
+
+      dot.style.background = colors[status] || "#23a55a";
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  loadDiscordProfile();
+</script>
+
 </body>
 </html>
