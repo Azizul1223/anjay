@@ -513,3 +513,8 @@
     0%, 100% { opacity: 0.5; transform: scale(1); }
     50%       { opacity: 0; transform: scale(1.12); }
   }
+
+  html, body {
+  height: 100%;
+  overflow: hidden;
+}
